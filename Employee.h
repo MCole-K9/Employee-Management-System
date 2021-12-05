@@ -78,11 +78,13 @@ class Employee{
 
         virtual void CalculateSalary() = 0;
 
-        virtual void CalculateSalary(float, float) = 0;
+        virtual void CalculateSalary(float x, float y) = 0;
 
-        virtual void CalculateSalary(float, int ) = 0;
+        virtual void CalculateSalary(float x, int y) = 0;
 
         virtual void Display() = 0;
+
+        
 
 };
 

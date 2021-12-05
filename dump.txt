@@ -1,0 +1,182 @@
+// EmployeeData Input(){
+
+//     EmployeeData ed;
+
+//     cout << "Enter Employee ID" << endl;
+//     cin >> ed.EmployeeId;
+
+//     cout << "Enter First Name" << endl;
+//     string firstName;
+//     cin >> firstName;
+
+//     cout << "Enter Last Name" << endl;
+//     string lastName;
+//     cin >> lastName;
+//    // getline(cin, ed.Name);
+    
+//     ed.Name = firstName + " " + lastName;
+
+//     cout << "Enter Rate per Hour" << endl;
+//     cin >> ed.RatePerHour;
+
+//     cout << "Enter the currency in which the Employee is paid " << endl;
+//     cin >> ed.Currency;
+
+//     return ed;
+
+// }
+
+// void Add(Employee *employee, string employeeType){
+
+//     //1A is an Administrator and 1B is a Teacher
+
+//     fstream fileObj;
+
+//     employee->CalculateSalary();
+//     employee->Display();
+
+
+//     if (employeeType == "Administrator" || employeeType == "1A"){
+
+//         fileObj.open("Administrator.dat", ios::out | ios::binary);
+
+//         if (fileObj.is_open()){
+
+//             fileObj.seekp((employee->getEmployeeId() - 1000) * sizeof(Administrator));
+//             fileObj.write( reinterpret_cast <const char *>(employee), sizeof(Administrator));
+    
+//         }else{
+
+//         }
+
+
+//     }else if(employeeType == "Teacher" ||employeeType == "1B"){
+
+//        fileObj.open("Teacher.dat", ios::out | ios::binary);
+
+//         if (fileObj.is_open()){
+            
+//             fileObj.seekp((employee->getEmployeeId() - 1050) * sizeof(Teacher));
+//             fileObj.write((char *)employee, sizeof(Teacher));
+
+//         }else{
+
+//         }
+
+                
+//     }
+
+//     fileObj.close();
+// }
+
+// void DisplayEmployee(Employee *employee, string employeeType)
+// {
+//     if (employeeType == "Administrator"){
+
+//         employee = new Administrator;
+        
+        
+//         try{
+
+//             fstream fileObj("Administrator.dat", ios::in | ios::binary); //declare a reference to the File
+            
+//             int id;
+        
+            
+//             //prompt user for relevant details
+//             cout<<"Please enter details for employee to be displayed.\n";
+//             cout<<"Employee Id: ";
+//             cin>>id;
+            
+//             if(id < 1000 || id > 1049)
+//             {
+//                 throw "invalid id";
+//             }
+            
+            
+//             if(fileObj.fail()) //if we were unable to open file
+//             {
+//                 throw -1;
+//             }
+//             else //if we were able to open file
+//             {
+//                 cout << 1;
+//                 fileObj.seekg((id - 1000) * sizeof(Administrator), ios::beg); //Go to starting position of record
+//                 //fileObj.read((char *)&employee, sizeof(Administrator)); //read details from file into local instance (emp)
+//                 cout << 2;
+//                 fileObj.read( reinterpret_cast <char *>(employee), sizeof(Administrator)); //read details from file into local instance (emp)
+//                 //fileObj.read( reinterpret_cast <char *>(&admin), sizeof(Administrator)); //read details from file into local instance (emp)
+//                 cout << 3;
+                
+//                 employee->Display();
+                
+                
+//             }
+//             fileObj.close();
+//         }
+//         catch(int e)
+//         {
+//             cerr<<"Int error occurred!"<<endl;
+//         }
+//         catch(char const *)
+//         {
+//             cerr<<"The Employee Id entered to be displayed is invalid!"<<endl;
+//         }
+//         catch(...)
+//         {
+//             cerr<<"Catch All statement in Add reached."<<endl;
+//         }
+
+//     }
+//     else if (employeeType == "Teacher"){
+
+//         employee = new Teacher;
+
+//         try{
+
+//             fstream fileObj("Teacher.dat", ios::in | ios::out |ios::binary); //declare a reference to the File
+            
+//             int id;
+        
+            
+//             //prompt user for relevant details
+//             cout<<"Please enter details for employee to be displayed.\n";
+//             cout<<"Employee Id: ";
+//             cin>>id;
+            
+//             if(id < 1050 || id > 1099)
+//             {
+//                 throw "invalid id";
+//             }
+            
+            
+//             if(fileObj.fail()) //if we were unable to open file
+//             {
+//                 throw -1;
+//             }
+//             else //if we were able to open file
+//             {
+//                 fileObj.seekg((id - 1050) * sizeof(Teacher)); //Go to starting position of record
+//                 fileObj.read( reinterpret_cast <char *>(employee), sizeof(Teacher)); //read details from file into local instance (emp)
+                
+//                 employee->Display();
+                
+//             }
+//             fileObj.close();
+//         }
+//         catch(int e)
+//         {
+//             cerr<<"Int error occurred!"<<endl;
+//         }
+//         catch(char const *)
+//         {
+//             cerr<<"The Employee Id entered to be displayed is invalid!"<<endl;
+//         }
+//         catch(...)
+//         {
+//             cerr<<"Catch All statement in Add reached."<<endl;
+//         }
+
+//     }
+
+// }

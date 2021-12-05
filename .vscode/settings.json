@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "*.tcc": "cpp",
+        "memory": "cpp",
+        "functional": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "iosfwd": "cpp",
+        "fstream": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled",
+    "cSpell.words": [
+        "Inicialize"
+    ]
+}
