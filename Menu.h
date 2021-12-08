@@ -6,10 +6,12 @@ using namespace std;
 
 
 string Menu(){
+    
 
     int choice;
 
-    cout << "Menu Options" << endl;
+    
+    cout << "\nMenu Options" << endl;
     cout << "1. Add Employee" << endl;
     cout << "2. Update Employee" << endl;
     cout << "3. Delete Employee" << endl;
@@ -17,26 +19,52 @@ string Menu(){
     cout << "5. Calculate Possibly Salary" << endl;
     cout << "6. Exit Program" << endl; 
 
-    cin >> choice;
+    try{
 
-    if (choice <= 5){
-
-        cout << "Select Type of Employee" << endl;
-        cout << "A. Administrator" << endl;
-        cout << "B. Teacher" << endl;
-
-        char typeSelection;
-        cin >> typeSelection;
-
-        typeSelection = toupper(typeSelection);
+        cin >> choice;
         
-        string x = to_string(choice) + typeSelection;
-        return x ;
+        if (choice <= 6 && choice >= 1){
+            if (choice != 6){
 
+                cout << "Select Type of Employee" << endl;
+                cout << "A. Administrator" << endl;
+                cout << "B. Teacher" << endl;
+
+                char typeSelection;
+                cin >> typeSelection;
+
+                typeSelection = toupper(typeSelection);
+
+                if (typeSelection == 'A' || typeSelection == 'B' )
+                {
+                    string x = to_string(choice) + typeSelection;
+                    return x ;
+
+                }else{
+
+                    throw "Invalid Employee Type Selection\n";
+
+                }
+                
+                
+               
+
+            }
+        } 
+        else{
+            throw -1;
+        }
+        
+    }catch(const char *){
+
+        cout << "Invalid Employee Type Selection\n";
+
+    }catch(int e){
+
+        cerr << "Invalid Menu Option\n";
     }
-
-    return to_string(choice);
-
     
+   //If choice was equal to 6 it should hit this return statement 
+   return to_string(choice);
     
 }

@@ -21,15 +21,28 @@ void Add(Employee *employee, string employeeType){
             cin >> workstationId;
             cout << "Enter Administrator's Over Time Hours" << endl;
             cin >> overtimeHours;
-            employee = new Administrator(ed.EmployeeId, ed.Name, ed.RatePerHour, 0, ed.Currency, workstationId, overtimeHours);
+
+            employee = new Administrator(ed.EmployeeId, ed.Name, ed.RatePerHour, 0.0, ed.Currency, workstationId, overtimeHours);
             employee->CalculateSalary();
-            fileObj.open("Administrator.dat", ios::out | ios::binary);
-            if (fileObj.is_open()){
-                fileObj.seekp((employee->getEmployeeId() - 1000) * sizeof(Administrator));
-                fileObj.write( reinterpret_cast <const char *>(employee), sizeof(Administrator));
-        
-            }else{
+
+            try{
+
+                fileObj.open("Administrator.dat", ios::out | ios::binary);
+
+                if (fileObj.fail()){
+                    
+                    throw -1;
+            
+                }else{
+                    fileObj.seekp((employee->getEmployeeId() - 1000) * sizeof(Administrator));
+                    fileObj.write( reinterpret_cast <const char *>(employee), sizeof(Administrator));
+                }
+
+            }catch(int e){
+                cerr << "Unable to open File\n";
             }
+
+
             cout << "Do you wish to add another "<< employeeType << " Record Y -Yes / N-No"<<endl;
             char ch;
             cin >> ch;
@@ -56,25 +69,25 @@ void Add(Employee *employee, string employeeType){
                 cout << "Enter Teacher's Contact Hours" << endl;
                 cin >> contactHours;
 
-                employee = new Teacher(ed.EmployeeId, ed.Name, ed.RatePerHour, 0, ed.Currency, specializedSubject, contactHours);
+                employee = new Teacher(ed.EmployeeId, ed.Name, ed.RatePerHour, 0.0, ed.Currency, specializedSubject, contactHours);
                 employee->CalculateSalary();
 
                 try{
                     fileObj.open("Teacher.dat", ios::out | ios::binary);
 
-                    if (fileObj.is_open()){
-                        
-                        fileObj.seekp((employee->getEmployeeId() - 1050) * sizeof(Teacher));
-                        fileObj.write((char *)employee, sizeof(Teacher));
+                    if (fileObj.fail()){
+
+                        throw -1;
 
                     }else{
-                        throw -1;
+
+                        fileObj.seekp((employee->getEmployeeId() - 1050) * sizeof(Teacher));
+                        fileObj.write(reinterpret_cast <const char *> (employee), sizeof(Teacher));  
                     }                    
                 }catch(int e){
-                    cerr << "File Could not open";
-                }
 
-                
+                    cerr << "Unable to open file\n";
+                }
 
                 cout << "Do you wish to add another "<< employeeType << " Record Y -Yes / N-No"<<endl;
                 char ch;
@@ -96,9 +109,6 @@ void Add(Employee *employee, string employeeType){
 }
 
 void DisplayEmployee(Employee *employee, string employeeType){
-
-      
-
 
     if (employeeType == "Administrator"){
 
@@ -128,7 +138,7 @@ void DisplayEmployee(Employee *employee, string employeeType){
             else //if we were able to open file
             {
                 fileObj.seekg((id - 1000) * sizeof(Administrator), ios::beg); //Go to starting position of record
-                fileObj.read( reinterpret_cast <char *>(employee), sizeof(Administrator)); //read details from file into local instance (emp)
+                fileObj.read( reinterpret_cast <char *>(employee), sizeof(Administrator)); //read details from file into object
                 
                 employee->Display(); 
                 
@@ -137,7 +147,7 @@ void DisplayEmployee(Employee *employee, string employeeType){
         }
         catch(int e)
         {
-            cerr<<"Int error occurred!"<<endl;
+            cerr<<"Unable to open file"<<endl;
         }
         catch(char const *)
         {
@@ -145,7 +155,7 @@ void DisplayEmployee(Employee *employee, string employeeType){
         }
         catch(...)
         {
-            cerr<<"Catch All statement in Add reached."<<endl;
+            cerr<<"Catch All statement in DisplayEmployee reached."<<endl;
         }
 
     }
@@ -178,7 +188,7 @@ void DisplayEmployee(Employee *employee, string employeeType){
             else //if we were able to open file
             {
                 fileObj.seekg((id - 1050) * sizeof(Teacher)); //Go to starting position of record
-                fileObj.read( reinterpret_cast <char *>(employee), sizeof(Teacher)); //read details from file into local instance (emp)
+                fileObj.read( reinterpret_cast <char *>(employee), sizeof(Teacher)); //read details from file into object
                 
                 employee->Display();
                 
@@ -187,7 +197,7 @@ void DisplayEmployee(Employee *employee, string employeeType){
         }
         catch(int e)
         {
-            cerr<<"Int error occurred!"<<endl;
+            cerr<<"Unable to open file"<<endl;
         }
         catch(char const *)
         {
@@ -195,7 +205,7 @@ void DisplayEmployee(Employee *employee, string employeeType){
         }
         catch(...)
         {
-            cerr<<"Catch All statement in Add reached."<<endl;
+            cerr<<"Catch All statement in DisplayEmployee reached."<<endl;
         }
 
     }
@@ -216,13 +226,13 @@ void UpdateEmployee(Employee *employee, string employeeType){
         
             
             //prompt user for relevant details
-            cout<<"Please enter details for employee you wish to displayed.\n";
+            cout<<"Please enter details for employee you wish to update.\n";
             cout<<"Employee Id: ";
             cin>>id;
             
             if(id < 1000 || id > 1049)
             {
-                throw "invalid id";
+                throw "\ninvalid id";
             }
 
             int workstationId;
@@ -233,7 +243,7 @@ void UpdateEmployee(Employee *employee, string employeeType){
             cin >> workstationId;
             cout << "Enter Administrator's Over Time Hours" << endl;
             cin >> overtimeHours;
-            employee = new Administrator(id, ed.Name, ed.RatePerHour, 0, ed.Currency, workstationId, overtimeHours);
+            employee = new Administrator(id, ed.Name, ed.RatePerHour, 0.0, ed.Currency, workstationId, overtimeHours);
             employee->CalculateSalary();
             
             
@@ -244,22 +254,22 @@ void UpdateEmployee(Employee *employee, string employeeType){
             else //if we were able to open file
             {
                 fileObj.seekp((id - 1000) * sizeof(Administrator), ios::beg); //Go to starting position of record
-                fileObj.write( reinterpret_cast <char *>(employee), sizeof(Administrator)); //read details from file into local instance (emp)
+                fileObj.write( reinterpret_cast <char *>(employee), sizeof(Administrator)); //read details from file into object
                 
             }
             fileObj.close();
         }
         catch(int e)
         {
-            cerr<<"Int error occurred!"<<endl;
+            cerr<<"Unable to open file"<<endl;
         }
         catch(char const *)
         {
-            cerr<<"The Employee Id entered to be displayed is invalid!"<<endl;
+            cerr<<"The Employee Id entered to be Updated is invalid!"<<endl;
         }
         catch(...)
         {
-            cerr<<"Catch All statement in Add reached."<<endl;
+            cerr<<"Catch All statement in Update reached."<<endl;
         }
 
     }
@@ -307,18 +317,18 @@ void UpdateEmployee(Employee *employee, string employeeType){
             else //if we were able to open file
             {
                 fileObj.seekp((id - 1050) * sizeof(Teacher)); //Go to starting position of record
-                fileObj.write( reinterpret_cast <char *>(employee), sizeof(Teacher)); //read details from file into local instance (emp)
+                fileObj.write( reinterpret_cast <char *>(employee), sizeof(Teacher)); //read details from file into object
                 
             }
             fileObj.close();
         }
         catch(int e)
         {
-            cerr<<"Int error occurred!"<<endl;
+            cerr<<"Unable to open file"<<endl;
         }
         catch(char const *)
         {
-            cerr<<"The Employee Id entered to be displayed is invalid!"<<endl;
+            cerr<<"The Employee Id entered to be updated is invalid!"<<endl;
         }
         catch(...)
         {
@@ -339,8 +349,7 @@ void DeleteEmployee(Employee *employee, string employeeType){
             int id;
         
             
-            //prompt user for relevant details
-            cout<<"Please enter details for employee you wish to displayed.\n";
+            cout<<"Please enter details for employee you wish to be Deleted.\n";
             cout<<"Employee Id: ";
             cin>>id;
             
@@ -357,22 +366,22 @@ void DeleteEmployee(Employee *employee, string employeeType){
             else //if we were able to open file
             {
                 fileObj.seekp((id - 1000) * sizeof(Administrator), ios::beg); //Go to starting position of record
-                fileObj.write( reinterpret_cast <char *>(employee), sizeof(Administrator)); //read details from file into local instance (emp)
+                fileObj.write( reinterpret_cast <char *>(employee), sizeof(Administrator)); //read details from file into object
                 
             }
             fileObj.close();
         }
         catch(int e)
         {
-            cerr<<"Int error occurred!"<<endl;
+            cerr<<"Unable to open file"<<endl;
         }
         catch(char const *)
         {
-            cerr<<"The Employee Id entered to be displayed is invalid!"<<endl;
+            cerr<<"The Employee Id entered to be delete is invalid!"<<endl;
         }
         catch(...)
         {
-            cerr<<"Catch All statement in Add reached."<<endl;
+            cerr<<"Catch All statement in DeleteEmployee reached."<<endl;
         }
 
     }
@@ -382,13 +391,13 @@ void DeleteEmployee(Employee *employee, string employeeType){
 
         try{
 
-            fstream fileObj("Teacher.dat", ios::in |ios::binary); //declare a reference to the File
+            fstream fileObj("Teacher.dat", ios::in |ios::binary);
             
             int id;
         
             
-            //prompt user for relevant details
-            cout<<"Please enter details for employee to be displayed.\n";
+
+            cout<<"Please enter details for employee to be deleted.\n";
             cout<<"Employee Id: ";
             cin>>id;
             
@@ -399,31 +408,30 @@ void DeleteEmployee(Employee *employee, string employeeType){
 
             employee = new Teacher;
             
-            
 
-            if(fileObj.fail()) //if we were unable to open file
+            if(fileObj.fail()) 
             {
                 throw -1;
             }
             else //if we were able to open file
             {
                 fileObj.seekp((id - 1050) * sizeof(Teacher)); //Go to starting position of record
-                fileObj.write( reinterpret_cast <char *>(employee), sizeof(Teacher)); //read details from file into local instance (emp)
+                fileObj.write( reinterpret_cast <char *>(employee), sizeof(Teacher)); //read details from file into object
                 
             }
             fileObj.close();
         }
         catch(int e)
         {
-            cerr<<"Int error occurred!"<<endl;
+            cerr<<"Unable to open file"<<endl;
         }
         catch(char const *)
         {
-            cerr<<"The Employee Id entered to be displayed is invalid!"<<endl;
+            cerr<<"The Employee Id entered to be deleted is invalid!"<<endl;
         }
         catch(...)
         {
-            cerr<<"Catch All statement in Add reached."<<endl;
+            cerr<<"Catch All statement in DeleteEmployee reached."<<endl;
         }
 
     } 
@@ -431,48 +439,60 @@ void DeleteEmployee(Employee *employee, string employeeType){
 
 void InicializeFile(Employee *employee){
 
-    int max = 50; //max number of records that can be used.
+    int max = 50; 
             
     try
-    { 
-    	fstream fileObj("Administrator.dat", ios::out|ios::binary); //declare a reference to file
-    	employee = new Administrator;
-        
-    	if(fileObj.fail()) //if we unable to reference file
-    	{ 
-    		throw -1; 
-    	}
-    	for(int i = 0; i <= max; i++) //loop through each record and store default data
-    	{ 
-    		fileObj.seekp((i) * sizeof(Administrator)); //go to starting address of record
-    		fileObj.write(reinterpret_cast <const char *> (employee), sizeof(Administrator)); //write the default instance to address
-    	}
-    	fileObj.close();
+    {   fstream fileObj("Teacher.dat", ios::in|ios::binary);
+        if (!fileObj.is_open()){
+
+            fstream fileObj("Administrator.dat", ios::out|ios::binary); //declare a reference to file
+            employee = new Administrator;
+            
+            if(fileObj.fail()) 
+            { 
+                throw -1; 
+            }
+            for(int i = 0; i <= max; i++)
+            { 
+                fileObj.seekp((i) * sizeof(Administrator));
+                fileObj.write(reinterpret_cast <const char *> (employee), sizeof(Administrator));
+            }
+            fileObj.close();
+        }
     }
     catch(int e)
     { 
-    	cerr <<"File was not created! Error Code - "<< e<< endl;
+    	cerr <<"Administrator File was not created! Error Code - "<< e<< endl;
     }
 
     try
     { 
-    	fstream fileObj("Teacher.dat", ios::out|ios::binary); //declare a reference to file
-        employee = new Teacher;
-    	
-    	if(fileObj.fail()) //if we unable to reference file
-    	{ 
-    		throw -1; 
-    	}
-    	for(int i = 0; i <= max; i++) //loop through each record and store default data
-    	{ 
-    		fileObj.seekp((i) * sizeof(Teacher)); //go to starting address of record
-    		fileObj.write(reinterpret_cast <const char *> (employee), sizeof(Teacher)); //write the default instance to address
-    	}
-    	fileObj.close();
+    	fstream fileObj("Teacher.dat", ios::in|ios::binary);
+        
+        if (!fileObj.is_open()){
+
+            fstream fileObj("Teacher.dat", ios::out|ios::binary);
+            employee = new Teacher;
+            
+            if(fileObj.fail()) //if we unable to reference file
+            { 
+                throw -2; 
+            }
+            for(int i = 0; i <= max; i++) //loop through each record and store default data
+            { 
+                fileObj.seekp((i) * sizeof(Teacher)); //go to starting address of record
+                fileObj.write(reinterpret_cast <const char *> (employee), sizeof(Teacher)); //write the default instance to address
+            }
+            fileObj.close();
+        }
+
+
+
+ 
     }
     catch(int e)
     { 
-    	cerr <<"File was not created! Error Code - "<< e<< endl;
+    	cerr <<"Teacher File was not created! Error Code - "<< e<< endl;
     }
         
 }

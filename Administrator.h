@@ -49,11 +49,15 @@ class Administrator: public Employee{
             
             Salary = RatePerHour * (40 + OvertimeHours);
         }
-        void CalculateSalary(float x, float y){
-
+        void CalculateSalary(float rateOfPay, int contactHours){
+            
+            Salary = contactHours * rateOfPay;
+            cout << "Possible Salary is $" << Salary << endl;
         }
-        void CalculateSalary(float x, int y){
+        void CalculateSalary(float rateOfPay, float overtimeHours){
 
+            Salary = rateOfPay * (40 + overtimeHours);
+            cout << "Possible Salary is $" << Salary << endl;
         }
         void Display(){
 

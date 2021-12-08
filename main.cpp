@@ -3,7 +3,6 @@
 
 int main(int argc, char const *argv[])
 {
-
     string choice;
     bool shouldRun = true;
 
@@ -15,7 +14,6 @@ int main(int argc, char const *argv[])
     while (shouldRun){
 
         choice = Menu();
-        cout << choice;
 
         if (choice == "1A"){
 
@@ -62,16 +60,41 @@ int main(int argc, char const *argv[])
 
         }
         else if (choice == "5A"){
-            
+
+            employee = new Administrator;
+
+            float rateOfPay;
+            float overtimeHours;
+
+            cout << "Enter Rate of pay"<< endl;
+            cin >> rateOfPay;
+
+            cout << "Enter over time hours"<< endl;
+            cin >> overtimeHours;
+
+            employee->CalculateSalary(rateOfPay, overtimeHours);
+           
 
         }
         else if (choice == "5B"){
 
+            employee = new Teacher;
+
+            float rateOfPay;
+            int contactHours;
+
+            cout << "Enter Rate of pay"<< endl;
+            cin >> rateOfPay;
+
+            cout << "Enter Contact time hours"<< endl;
+            cin >> contactHours;
+
+            employee->CalculateSalary(rateOfPay, contactHours);
 
         }
         else if (choice == "6"){
             shouldRun = false;
-            cout << "Thanks for using the Program\n";
+            cout << "\nThanks for using this Program";
         }   
     }
    

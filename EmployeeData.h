@@ -13,9 +13,7 @@ struct EmployeeData
 EmployeeData Input(string empType, string mode){
 
         EmployeeData ed;
-        cout<<empType;
         
-
         if (mode == "Add"){
 
                 bool validEntry = false;
@@ -49,7 +47,7 @@ EmployeeData Input(string empType, string mode){
                         catch(int e){
                                 
 
-                                cerr << "Invalid " << empType << " ID";
+                                cerr << "Invalid " << empType << " ID\n";
                                 validEntry = false;
                                 
                         }
