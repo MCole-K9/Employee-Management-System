@@ -3,6 +3,8 @@
 #include "EmployeeData.h"
 #include <fstream>
 
+//Matthew Cole - 2017001245
+
 void Add(Employee *employee, string employeeType){
 
     fstream fileObj;

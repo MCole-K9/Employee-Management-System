@@ -4,6 +4,8 @@
 
 #include "Employee.h"
 
+//Matthew Cole - 2017001245
+
 class Teacher: public Employee{
 
     private:

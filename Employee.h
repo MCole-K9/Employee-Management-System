@@ -1,6 +1,8 @@
 #ifndef EMPLOYEE_H
 #define EMPLOYEE_H
 
+//Matthew Cole - 2017001245
+
 #include <iostream>
 using namespace std;
 

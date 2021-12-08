@@ -3,6 +3,8 @@
 
 #include "Employee.h"
 
+//Matthew Cole - 2017001245
+
 class Administrator: public Employee{
 
     private:
